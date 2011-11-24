@@ -1,0 +1,4 @@
+apt.dat
+sct/*
+output/*
+!.gitignore
