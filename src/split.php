@@ -5,11 +5,11 @@
 require_once ('inc/util.class.php');
 require_once ('inc/airport.class.php');
 
-if (!is_dir(dirname(__FILE__) . '/output')) {
-	mkdir(dirname(__FILE__) . '/output');
+if (!is_dir(dirname(__FILE__) . '/../data')) {
+	mkdir(dirname(__FILE__) . '/../data');
 }
 
-$handle = fopen('apt.dat', 'r') or die('Unable to open airport data file - make sure apt.dat is in the same folder as this script!');
+$handle = fopen('../apt.dat', 'r') or die('Unable to open airport data file - make sure apt.dat is in the root folder of the project!');
 $counter = 0;
 $curICAO = '';
 $output = '';
@@ -22,7 +22,7 @@ while (!feof($handle)) {
 	// Skip the first two lines of comments
 	if ($line == '') {
 		if ($output != '') {
-			$outfile = dirname(__FILE__) . '/output/' . $curICAO . '.dat';
+			$outfile = dirname(__FILE__) . '/../data/' . $curICAO . '.dat';
 			echo '[' . $counter . '] Writing to ' . $outfile . "\n";
 			$results = file_put_contents($outfile, $output);
 		}

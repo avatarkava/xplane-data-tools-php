@@ -1,4 +1,6 @@
+.project
 apt.dat
-sct/*
+data/*
+!.gitignore
 output/*
 !.gitignore

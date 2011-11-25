@@ -7,14 +7,14 @@ require_once ('inc/util.class.php');
 require_once ('inc/airport.class.php');
 
 if (isset($argv[1])) {
-	$icao = $argv[1];
+	$icao = strtoupper(trim($argv[1]));
 }
 else {
 	die("You must specify an airport code on the command line!\n\n");
 }
 
 $basedir = dirname(__FILE__);
-$handle = fopen($basedir . '/output/' . $icao . '.dat', 'r') or die('Airport ' . $icao . ' not found!');
+$handle = fopen($basedir . '/../data/' . $icao . '.dat', 'r') or die('Airport ' . $icao . ' not found!');
 
 while (!feof($handle)) {
 	$buffer = fgets($handle, 4096);

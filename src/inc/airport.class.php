@@ -6,11 +6,15 @@ class Airport
 	var $icao;
 	var $name;
 	var $geo;
-	
-	var $freq_twr, $freq_gnd;	
+
+	var $freq_twr, $freq_gnd;
 
 	var $runways = array();
 	var $taxiways = array();
+
+	public function __construct()
+	{
+	}
 
 	public function addRunway($data)
 	{
@@ -33,7 +37,7 @@ class Airport
 
 	public function outputVRC()
 	{
-		// @TODO - Might want to use a templating system on this, donkey
+		// @TODO - Implement a templating system on this
 		include ('templates/vrc.tpl');
 	}
 
