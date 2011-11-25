@@ -210,7 +210,7 @@ while (!feof($handle)) {
 
 }
 fclose($handle);
-echo $Airport->outputVRC();
+echo $Airport->output();
 echo "\n";
 exit();
 ?>

@@ -8,24 +8,30 @@
 #define parking 100
 
 [INFO]
-<?= $this->icao; ?> ;File description
-<?= $this->icao; ?>_TWR ;Profile Name
-<?= $this->icao; ?> ;Center point
+xplane-data-tools-php sector output ; File description
+<?= $this->icao; ?>_TWR ; Default Callsign
+<?= $this->icao; ?> ; Default Airport
 <?php list($lat, $lng) = explode(' ', Util::dec2Dms($this->geo)); ?>
-<?= $lat; ?> ;Center lat 
-<?= $lng; ?> ;Center lng
+<?= $lat; ?> ; Center lat 
+<?= $lng; ?> ; Center lng
 60 ; Lat compression
 52 ; Lng compression
--2.2 ;Magnetic Variation
+-2.2 ; Magnetic Variation
 1.000000 ; Sector Scale Value (deprecated)
 
 [AIRPORT]
-<?= $this->icao; ?> <?=$this->freq_twr;?> <?= Util::dec2Dms($this->geo) ?> E ;<?= $this->name; ?> 
+<?= $this->icao; ?> <?=$this->freq_twr;?> <?= Util::dec2Dms($this->geo) ?> B ; <?= $this->name; ?> 
 
 [RUNWAY]
-; <?= $this->icao; ?> - <?= $this->name; ?> - @TODO - Heading of runways - not currently in xplane data
+; <?= $this->icao; ?> - <?= $this->name; ?> 
 <?php foreach($this->runways AS $runway): ?>
 <?= $runway['endpoint'][0]['number'] ?> <?= sprintf('%03d', $runway['endpoint'][1]['number']) ?> <?= sprintf('%03d', $runway['endpoint'][0]['bearing']); ?> <?= $runway['endpoint'][1]['bearing']; ?> <?= Util::dec2Dms($runway['endpoint'][0]['centerline_geo']) ?> <?= Util::dec2Dms($runway['endpoint'][1]['centerline_geo']) ?> 
+<?php endforeach; ?>
+
+[LABELS]
+<?php foreach($this->runways AS $r): ?>
+"<?= $r['endpoint'][0]['number'] ?>" <?= Util::dec2Dms($r['endpoint'][0]['sideline2_geo']); ?> ils_hold_short
+"<?= $r['endpoint'][1]['number'] ?>" <?= Util::dec2Dms($r['endpoint'][1]['sideline2_geo']); ?> ils_hold_short
 <?php endforeach; ?>
 
 [GEO]
@@ -34,13 +40,13 @@
 ; ==========================================================
 
 ; ### RUNWAYS ### 
-<?php foreach($this->runways AS $r): ?> 
-; Runway <?= $r['endpoint'][0]['number'] ?>/<?= $r['endpoint'][1]['number'] ?> ;
-<?= Util::dec2Dms($r['endpoint'][0]['centerline_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['centerline_geo']); ?> runway
-<?= Util::dec2Dms($r['endpoint'][0]['sideline1_geo']); ?> <?= Util::dec2Dms($r['endpoint'][0]['sideline2_geo']); ?> runway
-<?= Util::dec2Dms($r['endpoint'][1]['sideline1_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['sideline2_geo']); ?> runway
-<?= Util::dec2Dms($r['endpoint'][0]['sideline1_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['sideline1_geo']); ?> runway
-<?= Util::dec2Dms($r['endpoint'][0]['sideline2_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['sideline2_geo']); ?> runway  
+<?php foreach($this->runways AS $r): ?>
+; Runway <?= $r['endpoint'][0]['number'] ?>/<?= $r['endpoint'][1]['number'] ?> 
+<?= Util::dec2Dms($r['endpoint'][0]['centerline_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['centerline_geo']); ?> runway  
+<?= Util::dec2Dms($r['endpoint'][0]['sideline1_geo']); ?> <?= Util::dec2Dms($r['endpoint'][0]['sideline2_geo']); ?> runway 
+<?= Util::dec2Dms($r['endpoint'][1]['sideline1_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['sideline2_geo']); ?> runway 
+<?= Util::dec2Dms($r['endpoint'][0]['sideline1_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['sideline1_geo']); ?> runway 
+<?= Util::dec2Dms($r['endpoint'][0]['sideline2_geo']); ?> <?= Util::dec2Dms($r['endpoint'][1]['sideline2_geo']); ?> runway 
 
 <?php endforeach; ?>
 
@@ -54,6 +60,7 @@
 <?php endif; ?>
 <? $lastGeo = Util::dec2Dms($node['geo']); ?>
 <?php endforeach; ?>
+
 <?php endforeach; ?>
 ; @TODO - Taxiway center lines?
 N030.03.09.152 W090.01.46.815 N030.03.09.130 W090.01.45.805 taxi_center

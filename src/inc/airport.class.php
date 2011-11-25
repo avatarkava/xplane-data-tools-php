@@ -35,10 +35,27 @@ class Airport
 		$this->taxiways[] = $last;
 	}
 
-	public function outputVRC()
+	public function output($format = 'sct2', $path = '')
 	{
+		if ($format != 'sct2') {
+			die('Output format currently not supported');
+		}
+
+		if ($path == '') {
+			$path = dirname(__FILE__) . '/../../output/' . $this->icao . '.' . $format;
+		}
+
 		// @TODO - Implement a templating system on this
-		include ('templates/vrc.tpl');
+		ob_start();
+		include ('../templates/vrc.tpl');
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		if ($output != '') {
+			file_put_contents($path, $output);
+			echo 'Output saved to ' . $path . "\n";
+		}
+		return;
 	}
 
 }
