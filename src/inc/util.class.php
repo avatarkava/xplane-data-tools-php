@@ -118,11 +118,36 @@ class Util
 		return $flatitude . ' ' . $flongitude;
 	}
 
-	public function dms2Dec($value)
+	public function dms2Dec($value, $precision = 6)
 	{
-		list($degrees, $minutes, $seconds, $micro) = explode('.', $value);
-		$decimal = $degrees + ($minutes / 60) + (($seconds + $micro / 1000) / 3600);
-		return $decimal;
+        list($latitude, $longitude) = explode(' ', $value);
+        
+        // Latitude
+		list($degrees, $minutes, $seconds, $micro) = explode('.', $latitude);
+        $NorS = $degrees[0];
+        $degrees = substr($degrees, 1);
+        $flatitude = $degrees + ($minutes / 60) + (($seconds + $micro / 1000) / 3600);
+        $flatitude = abs(round($flatitude, $precision));
+    
+        // Longitude
+        list($degrees, $minutes, $seconds, $micro) = explode('.', $longitude);
+        $EorW = $degrees[0];
+        $degrees = substr($degrees, 1);
+        $flongitude = $degrees + ($minutes / 60) + (($seconds + $micro / 1000) / 3600);
+        $flongitude = abs(round($flongitude, $precision));
+
+        $formatString = '%0-' . ($precision + 3) . 's';
+        $flatitude = sprintf($formatString, $flatitude);
+        $flongitude = sprintf($formatString, $flongitude);
+
+        if ($NorS == 'S') {
+            $flatitude = '-' . $flatitude;
+        }
+        if ($EorW == 'W') {
+            $flongitude = '-' . $flongitude;
+        }
+        
+	    return $flatitude . ' ' . $flongitude;
 	}
 
 }
